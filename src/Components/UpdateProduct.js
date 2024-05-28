@@ -23,6 +23,8 @@ const UpdateProduct = () => {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Product updated:', data);
+                alert("Update Success!");
+                window.location.href = '/AdminHomePage'
             } else {
                 throw new Error('Failed to update product');
             }
