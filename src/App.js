@@ -82,6 +82,31 @@ function App() {
     }
   };
 
+
+
+
+  const handleAdminDelete = async (itemId) => {
+    try {
+      console.log('Deleting item with ID:', itemId);
+  
+      const response = await fetch(`http://127.0.0.1:8000/api/products/${itemId}`, {
+        method: 'DELETE',
+      });
+  
+      console.log('Delete response:', response);
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete item from Products');
+      }
+  
+      const updatedItems = products.filter(item => item.id !== itemId);
+      setProducts(updatedItems);
+  
+      fetchProducts();
+    } catch (error) {
+      console.error('Error deleting item from Product:', error);
+    }
+  };
   return (
     <BrowserRouter>
       <div className="App">
@@ -103,7 +128,14 @@ function App() {
               </div>
             } 
           />
-          
+          <Route 
+            path="/AdminHomePage" 
+            element={
+              <div>
+                <AdminHomePage products={products} handleAdminDelete={handleAdminDelete} />
+              </div>
+            } 
+          />
            <Route
            exact
             path="/"
@@ -117,7 +149,7 @@ function App() {
             path="/RegisterPage"
             element={
               <div>
-              
+                <RegisterPage/>
               </div>
             }
           />
@@ -135,7 +167,7 @@ function App() {
             path="/AddProductPage"
             element={
               <div>
-              
+                <AddProduct/>
               </div>
             }
           />
@@ -143,7 +175,7 @@ function App() {
             path="/UpdateProduct/:productId"
             element={
               <div>
-              
+                <UpdateProduct/>
               </div>
             }
           />
