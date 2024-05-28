@@ -1,0 +1,20 @@
+<?php
+
+use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\productsController;
+use App\Http\Controllers\CartController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
+
+Route::prefix('cart')->group(function () {
+    Route::post('/add', [CartController::class, 'addToCart']);
+    // Route::post('/adminAddItem', [CartController::class, 'adminAddItem']);
+    Route::get('/', [CartController::class, 'viewCart']);
+    Route::put('/{productId}', [CartController::class, 'updateCartItem']);
+    Route::delete('/{productId}', [CartController::class, 'removeFromCart']);
+});
